@@ -1,15 +1,16 @@
 package main
 
-import (
-	"github.com/bohexists/cache-library/cache"
-)
+import "github.com/gin-gonic/gin"
 
-type CacheStorage struct {
-	cache *cache.Cache
-}
+func main() {
+	r := gin.Default()
+	storage := NewCacheStorage()
 
-func NewCacheStorage() *CacheStorage {
-	return &CacheStorage{
-		cache: cache.New(cache.CacheConfig{MaxSize: 100, DefaultTTL: 0}),
-	}
+	r.POST("/user", createUserHandler(storage))
+	r.GET("/user/:id", getUserHandler(storage))
+	r.PUT("/user/:id", updateUserHandler(storage))
+	r.DELETE("/user/:id", deleteUserHandler(storage))
+	r.GET("/users", getAllUsersHandler(storage))
+
+	r.Run(":8080")
 }
