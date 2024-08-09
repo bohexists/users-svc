@@ -10,28 +10,33 @@ type User struct {
 	Password   string `json:"password"`
 }
 
+// Storage defines the interface for user data storage operations
 type Storage interface {
 	CreateUser(u User) error
 	GetUser(id string) (*User, error)
+	GetAllUsers() ([]User, error)
 	UpdateUser(id string, u User) error
 	DeleteUser(id string) error
-	GetAllUsers() ([]User, error)
 }
 
+// CacheStorage is a storage implementation that uses an in-memory cache
 type CacheStorage struct {
 	cache *cache.Cache
 }
 
+// NewCacheStorage initializes a new CacheStorage instance
 func NewCacheStorage() *CacheStorage {
 	return &CacheStorage{
 		cache: cache.New(cache.CacheConfig{MaxSize: 100, DefaultTTL: 0}),
 	}
 }
 
+// CreateUser save a new user in the cache
 func (s *CacheStorage) CreateUser(u User) error {
 	return s.cache.Set(u.ID, u)
 }
 
+// GetUser retrieves a user from the cache
 func (s *CacheStorage) GetUser(id string) (*User, error) {
 	item, err := s.cache.Get(id)
 	if err != nil {
@@ -44,14 +49,7 @@ func (s *CacheStorage) GetUser(id string) (*User, error) {
 	return &u, nil
 }
 
-func (s *CacheStorage) UpdateUser(id string, u User) error {
-	return s.cache.Set(id, u)
-}
-
-func (s *CacheStorage) DeleteUser(id string) error {
-	return s.cache.Delete(id)
-}
-
+// GetAllUsers retrieves all users from the cache
 func (s *CacheStorage) GetAllUsers() ([]User, error) {
 	keys, err := s.cache.Keys()
 	if err != nil {
@@ -69,4 +67,14 @@ func (s *CacheStorage) GetAllUsers() ([]User, error) {
 		}
 	}
 	return users, nil
+}
+
+// UpdateUser updates an existing user in the cache
+func (s *CacheStorage) UpdateUser(id string, u User) error {
+	return s.cache.Set(id, u)
+}
+
+// DeleteUser removes a user from the cache
+func (s *CacheStorage) DeleteUser(id string) error {
+	return s.cache.Delete(id)
 }

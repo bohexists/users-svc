@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// createUserHandler handles the creation of a new user
 func createUserHandler(s Storage) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var u User
@@ -17,6 +18,7 @@ func createUserHandler(s Storage) gin.HandlerFunc {
 	}
 }
 
+// getUserHandler handles retrieving a user
 func getUserHandler(s Storage) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
@@ -29,6 +31,15 @@ func getUserHandler(s Storage) gin.HandlerFunc {
 	}
 }
 
+// getAllUsersHandler handles retrieving all users
+func getAllUsersHandler(s Storage) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		users, _ := s.GetAllUsers()
+		c.JSON(http.StatusOK, users)
+	}
+}
+
+// updateUserHandler handles updating an existing user
 func updateUserHandler(s Storage) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
@@ -42,17 +53,11 @@ func updateUserHandler(s Storage) gin.HandlerFunc {
 	}
 }
 
+// deleteUserHandler handles deleting a user
 func deleteUserHandler(s Storage) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
 		s.DeleteUser(id)
 		c.JSON(http.StatusOK, gin.H{"message": "User deleted"})
-	}
-}
-
-func getAllUsersHandler(s Storage) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		users, _ := s.GetAllUsers()
-		c.JSON(http.StatusOK, users)
 	}
 }
