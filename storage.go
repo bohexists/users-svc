@@ -1,6 +1,9 @@
 package main
 
-import "github.com/bohexists/cache-library/cache"
+import (
+	"github.com/bohexists/cache-library/cache"
+	"github.com/google/uuid"
+)
 
 type User struct {
 	ID         string `json:"id"`
@@ -10,7 +13,7 @@ type User struct {
 	Password   string `json:"password"`
 }
 
-// Storage defines the interface for user data storage operations
+// Storage defines the interвface for user data storage operations
 type Storage interface {
 	CreateUser(u User) error
 	GetUser(id string) (*User, error)
@@ -32,8 +35,12 @@ func NewCacheStorage() *CacheStorage {
 }
 
 // CreateUser save a new user in the cache
-func (s *CacheStorage) CreateUser(u User) error {
-	return s.cache.Set(u.ID, u)
+func (s *CacheStorage) CreateUser(u User) (string, error) {
+	u.ID = uuid.New().String()
+	if err := s.cache.Set(u.ID, u); err != nil {
+		return "", err
+	}
+	return u.ID, nil
 }
 
 // GetUser retrieves a user from the cache

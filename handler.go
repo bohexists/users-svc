@@ -13,8 +13,10 @@ func createUserHandler(s Storage) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
 			return
 		}
-		s.CreateUser(u)
-		c.JSON(http.StatusOK, u)
+
+		id := s.CreateUser(u)
+
+		c.JSON(http.StatusOK, gin.H{"id": id})
 	}
 }
 
