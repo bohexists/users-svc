@@ -14,7 +14,11 @@ func createUserHandler(s Storage) gin.HandlerFunc {
 			return
 		}
 
-		id := s.CreateUser(u)
+		id, err := s.CreateUser(u)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+			return
+		}
 
 		c.JSON(http.StatusOK, gin.H{"id": id})
 	}

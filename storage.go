@@ -15,7 +15,7 @@ type User struct {
 
 // Storage defines the interвface for user data storage operations
 type Storage interface {
-	CreateUser(u User) error
+	CreateUser(u User) (string, error)
 	GetUser(id string) (*User, error)
 	GetAllUsers() ([]User, error)
 	UpdateUser(id string, u User) error
