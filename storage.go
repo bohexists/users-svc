@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/bohexists/cache-library/cache"
 	"github.com/google/uuid"
+	"time"
 )
 
 type User struct {
@@ -30,7 +31,7 @@ type CacheStorage struct {
 // NewCacheStorage initializes a new CacheStorage instance
 func NewCacheStorage() *CacheStorage {
 	return &CacheStorage{
-		cache: cache.New(cache.CacheConfig{MaxSize: 100, DefaultTTL: 0}),
+		cache: cache.New(cache.CacheConfig{MaxSize: 100, DefaultTTL: time.Minute}),
 	}
 }
 
