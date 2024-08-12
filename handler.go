@@ -10,7 +10,11 @@ func createUserHandler(s Storage) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var u User
 		if err := c.BindJSON(&u); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
+			c.JSON(http.StatusBadRequest, ErrorResponse{
+				Code:    http.StatusBadRequest,
+				Message: "Invalid request data",
+				Details: err.Error(),
+			})
 			return
 		}
 
