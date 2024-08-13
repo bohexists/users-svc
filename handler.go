@@ -117,3 +117,30 @@ func deleteUserHandler(s Storage) gin.HandlerFunc {
 		c.JSON(http.StatusOK, gin.H{"message": "User deleted"})
 	}
 }
+
+// searchUserByEmailHandler handles searching a user by email
+func searchUserByEmailHandler(s Storage) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		email := c.Query("email")
+		if email == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Email query parameter is required"})
+			return
+		}
+
+		users, err := s.GetAllUsers()
+		if err != nil {
+			c.Error(err).SetType(gin.ErrorTypePrivate)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search user by email"})
+			return
+		}
+
+		for _, user := range users {
+			if user.Email == email {
+				c.JSON(http.StatusOK, user)
+				return
+			}
+		}
+
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+	}
+}
