@@ -1,5 +1,5 @@
-github.com/bohexists/cache-library v0.0.0-20240806193743-06d99d75bd8a h1:Cay4kRXElmyp5loWMTr7RIFgpRGbL+fsdR6yTrXc8Jw=
-github.com/bohexists/cache-library v0.0.0-20240806193743-06d99d75bd8a/go.mod h1:hOIkw77LsKLVAyCv4czFAGFxd8++SLJPo4hKvJMgHak=
+github.com/bohexists/cache-lib v0.0.0-20240816195346-6433cb2be0b4 h1:VTrDN/VoipPwbCGK/9HeaDDRX6/gs4q3mbq/qDABREM=
+github.com/bohexists/cache-lib v0.0.0-20240816195346-6433cb2be0b4/go.mod h1:bO6DDsJlURQ7FKzGKg3AZWN8ElfVM8LWj3yEgyWIKLo=
 github.com/bytedance/sonic v1.11.6 h1:oUp34TzMlL+OY1OUWxHqsdkgC/Zfc85zGqw9siXjrc0=
 github.com/bytedance/sonic v1.11.6/go.mod h1:LysEHSvpvDySVdC2f87zGWf6CIKJcAvqab1ZaiQtds4=
 github.com/bytedance/sonic/loader v0.1.1 h1:c+e5Pt1k/cy5wMveRDyk2X4B9hF4g7an8N3zCYjJFNM=

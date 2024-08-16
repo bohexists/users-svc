@@ -3,7 +3,7 @@ module github.com/bohexists/http-api-service
 go 1.22.0
 
 require (
-	github.com/bohexists/cache-library v0.0.0-20240806193743-06d99d75bd8a
+	github.com/bohexists/cache-lib v0.0.0-20240816195346-6433cb2be0b4
 	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0

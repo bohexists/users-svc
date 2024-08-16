@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/bohexists/cache-library/cache"
+	"github.com/bohexists/cache-lib/cache"
 	"github.com/google/uuid"
 	"time"
 )
