@@ -3,7 +3,9 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/time/rate"
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -45,4 +47,32 @@ func CORSMiddleware() gin.HandlerFunc {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	})
+}
+
+// Rate limiter settings
+const (
+	maxRequestsPerSecond = 5
+	burstSize            = 10
+)
+
+// Rate limiter
+func rateLimiterMiddleware() gin.HandlerFunc {
+	clients := make(map[string]*rate.Limiter)
+	mu := sync.Mutex{}
+
+	return func(c *gin.Context) {
+		mu.Lock()
+		if _, exists := clients[c.ClientIP()]; !exists {
+			clients[c.ClientIP()] = rate.NewLimiter(rate.Limit(maxRequestsPerSecond), burstSize)
+		}
+		limiter := clients[c.ClientIP()]
+		mu.Unlock()
+
+		if !limiter.Allow() {
+			c.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{"error": "Too many requests"})
+			return
+		}
+
+		c.Next()
+	}
 }

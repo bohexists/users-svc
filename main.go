@@ -11,6 +11,7 @@ func main() {
 	// Apply all middleware
 	r.Use(ErrorHandlingMiddleware())
 	r.Use(CORSMiddleware())
+	r.Use(rateLimiterMiddleware())
 
 	// Initialize CacheStorage
 	storage := NewCacheStorage()
