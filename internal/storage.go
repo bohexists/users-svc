@@ -1,25 +1,23 @@
-package main
+package internal
 
 import (
 	"github.com/bohexists/cache-lib/cache"
+	"github.com/bohexists/http-api-service/models"
 	"github.com/google/uuid"
 	"time"
 )
 
-type User struct {
-	ID         string `json:"id"`
-	FirstName  string `json:"first_name"`
-	SecondName string `json:"second_name"`
-	Email      string `json:"email"`
-	Password   string `json:"password"`
+type cacheObject struct {
+	value   models.User
+	expired time.Time
 }
 
 // Storage defines the interвface for user data storage operations
 type Storage interface {
-	CreateUser(u User) (string, error)
-	GetUser(id string) (*User, error)
-	GetAllUsers() ([]User, error)
-	UpdateUser(id string, u User) error
+	CreateUser(u models.User) (string, error)
+	GetUser(id string) (*models.User, error)
+	GetAllUsers() ([]models.User, error)
+	UpdateUser(id string, u models.User) error
 	DeleteUser(id string) error
 }
 
@@ -36,7 +34,7 @@ func NewCacheStorage() *CacheStorage {
 }
 
 // CreateUser save a new user in the cache
-func (s *CacheStorage) CreateUser(u User) (string, error) {
+func (s *CacheStorage) CreateUser(u models.User) (string, error) {
 	u.ID = uuid.New().String()
 	if err := s.cache.Set(u.ID, u); err != nil {
 		return "", err
@@ -45,7 +43,7 @@ func (s *CacheStorage) CreateUser(u User) (string, error) {
 }
 
 // GetUser retrieves a user from the cache
-func (s *CacheStorage) GetUser(id string) (*User, error) {
+func (s *CacheStorage) GetUser(id string) (*models.User, error) {
 	item, err := s.cache.Get(id)
 	if err != nil {
 		return nil, err
@@ -53,24 +51,24 @@ func (s *CacheStorage) GetUser(id string) (*User, error) {
 	if item == nil {
 		return nil, nil
 	}
-	u := item.(User)
+	u := item.(models.User)
 	return &u, nil
 }
 
 // GetAllUsers retrieves all users from the cache
-func (s *CacheStorage) GetAllUsers() ([]User, error) {
+func (s *CacheStorage) GetAllUsers() ([]models.User, error) {
 	keys, err := s.cache.Keys()
 	if err != nil {
 		return nil, err
 	}
-	var users []User
+	var users []models.User
 	for _, key := range keys {
 		item, err := s.cache.Get(key)
 		if err != nil {
 			continue
 		}
 		if item != nil {
-			u := item.(User)
+			u := item.(models.User)
 			users = append(users, u)
 		}
 	}
@@ -78,7 +76,7 @@ func (s *CacheStorage) GetAllUsers() ([]User, error) {
 }
 
 // UpdateUser updates an existing user in the cache
-func (s *CacheStorage) UpdateUser(id string, u User) error {
+func (s *CacheStorage) UpdateUser(id string, u models.User) error {
 	return s.cache.Set(id, u)
 }
 
