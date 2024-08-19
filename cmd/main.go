@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
+
 	// Initialize Gin router
 	r := gin.Default()
 
@@ -23,6 +24,6 @@ func main() {
 	r.DELETE("/user/:id", deleteUserHandler(storage))
 	r.GET("/users", getAllUsersHandler(storage))
 	r.GET("/user/search", searchUserByEmailHandler(storage))
-	// Start the servergit a
+	// Start the server
 	r.Run(":8080")
 }

@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"github.com/bohexists/users-svc/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -8,7 +9,7 @@ import (
 // createUserHandler handles the creation of a new user
 func createUserHandler(s Storage) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var u User
+		var u models.User
 		if err := c.BindJSON(&u); err != nil {
 			c.JSON(http.StatusBadRequest, ErrorResponse{
 				Code:    http.StatusBadRequest,
@@ -78,7 +79,7 @@ func getAllUsersHandler(s Storage) gin.HandlerFunc {
 func updateUserHandler(s Storage) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
-		var u User
+		var u models.User
 		if err := c.BindJSON(&u); err != nil {
 			c.JSON(http.StatusBadRequest, ErrorResponse{
 				Code:    http.StatusBadRequest,

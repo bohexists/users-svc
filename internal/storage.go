@@ -2,7 +2,7 @@ package internal
 
 import (
 	"github.com/bohexists/cache-lib/cache"
-	"github.com/bohexists/http-api-service/models"
+	"github.com/bohexists/users-svc/models"
 	"github.com/google/uuid"
 	"time"
 )

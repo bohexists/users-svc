@@ -1,4 +1,4 @@
-module github.com/bohexists/http-api-service
+module github.com/bohexists/users-svc
 
 go 1.22.0
 
@@ -7,6 +7,8 @@ require (
 	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
+	golang.org/x/time v0.6.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -35,7 +37,5 @@ require (
 	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
-	golang.org/x/time v0.6.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

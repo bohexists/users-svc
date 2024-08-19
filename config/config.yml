@@ -1,0 +1,10 @@
+server:
+  port: ":8080"
+
+rate_limiter:
+  max_requests_per_second: 5
+  burst_size: 10
+
+cache:
+  max_size: 100
+  default_ttl: "1m"
