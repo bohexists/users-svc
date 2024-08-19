@@ -56,7 +56,7 @@ const (
 )
 
 // Rate limiter
-func rateLimiterMiddleware() gin.HandlerFunc {
+func RateLimiterMiddleware() gin.HandlerFunc {
 	clients := make(map[string]*rate.Limiter)
 	mu := sync.Mutex{}
 
