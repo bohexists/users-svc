@@ -11,8 +11,8 @@ func main() {
 	r := gin.Default()
 
 	// Apply all middleware
-	r.Use(internal.ErrorHandlingMiddleware())
 	r.Use(internal.CORSMiddleware())
+	r.Use(internal.ErrorHandlingMiddleware())
 	r.Use(internal.RateLimiterMiddleware())
 
 	// Initialize CacheStorage
@@ -26,5 +26,8 @@ func main() {
 	r.GET("/users", internal.GetAllUsersHandler(storage))
 	r.GET("/user/search", internal.SearchUserByEmailHandler(storage))
 	// Start the server
-	r.Run(":8080")
+	err := r.Run(":8080")
+	if err != nil {
+		return
+	}
 }
