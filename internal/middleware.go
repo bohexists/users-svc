@@ -1,12 +1,13 @@
 package internal
 
 import (
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
 	"golang.org/x/time/rate"
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 // ErrorResponse structure of the response when an error

@@ -1,10 +1,11 @@
 package internal
 
 import (
+	"time"
+
 	"github.com/bohexists/cache-lib/cache"
 	"github.com/bohexists/users-svc/models"
 	"github.com/google/uuid"
-	"time"
 )
 
 type cacheObject struct {

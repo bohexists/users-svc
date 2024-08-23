@@ -1,9 +1,10 @@
 package internal
 
 import (
+	"net/http"
+
 	"github.com/bohexists/users-svc/models"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 // CreateUserHandler handles the creation of a new user
