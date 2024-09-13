@@ -1,7 +1,9 @@
 package main
 
 import (
-	"github.com/bohexists/users-svc/internal"
+	"github.com/bohexists/users-svc/controllers"
+	"github.com/bohexists/users-svc/internal/middleware"
+	"github.com/bohexists/users-svc/repository"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,20 +13,24 @@ func main() {
 	r := gin.Default()
 
 	// Apply all middleware
-	r.Use(internal.CORSMiddleware())
-	r.Use(internal.ErrorHandlingMiddleware())
-	r.Use(internal.RateLimiterMiddleware())
+	r.Use(middleware.CORSMiddleware())
+	r.Use(middleware.ErrorHandlingMiddleware())
+	r.Use(middleware.RateLimiterMiddleware())
 
-	// Initialize CacheStorage
-	storage := internal.NewCacheStorage()
+	// Initialize CacheRepository (Repository layer)
+	repo := repository.NewCacheRepository()
 
-	// Routes.
-	r.POST("/user", internal.CreateUserHandler(storage))
-	r.GET("/user/:id", internal.GetUserHandler(storage))
-	r.PUT("/user/:id", internal.UpdateUserHandler(storage))
-	r.DELETE("/user/:id", internal.DeleteUserHandler(storage))
-	r.GET("/users", internal.GetAllUsersHandler(storage))
-	r.GET("/user/search", internal.SearchUserByEmailHandler(storage))
+	// Initialize UserController with the repository (Controller layer)
+	userController := controllers.NewUserController(repo)
+
+	// Routes for HTML pages (MVC structure)
+	r.GET("/users", userController.ShowUsers)             // Show list of users
+	r.GET("/user/new", userController.NewUserForm)        // Show form to create new user
+	r.POST("/user/create", userController.CreateUser)     // Handle user creation
+	r.GET("/user/edit/:id", userController.EditUserForm)  // Show form to edit a user
+	r.POST("/user/update/:id", userController.UpdateUser) // Handle user update
+	r.GET("/user/delete/:id", userController.DeleteUser)  // Handle user deletion
+
 	// Start the server
 	err := r.Run(":8080")
 	if err != nil {
