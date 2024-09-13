@@ -2,6 +2,7 @@ package models
 
 import "errors"
 
+// User represents the user model
 type User struct {
 	ID         string `json:"id"`
 	FirstName  string `json:"first_name"`
@@ -10,7 +11,7 @@ type User struct {
 	Password   string `json:"password"`
 }
 
-// Пример метода валидации модели
+// Validate validates the user model
 func (u *User) Validate() error {
 	if u.FirstName == "" || u.Email == "" {
 		return errors.New("first name and email are required")
