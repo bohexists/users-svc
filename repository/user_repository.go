@@ -1,10 +1,11 @@
 package repository
 
 import (
-	"github.com/bohexists/cache-lib/cache"
-	"github.com/bohexists/users-svc/models"
 	"github.com/google/uuid"
 	"time"
+
+	"github.com/bohexists/cache-lib/cache"
+	"github.com/bohexists/users-svc/models"
 )
 
 type Repository interface {

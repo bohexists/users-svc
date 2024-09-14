@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/bohexists/users-svc/config"
 	"github.com/bohexists/users-svc/controllers"
 	"github.com/bohexists/users-svc/internal/middleware"
 	"github.com/bohexists/users-svc/repository"
@@ -8,6 +9,11 @@ import (
 )
 
 func main() {
+	// Load configuration
+	cfg, err := config.LoadConfig("config/config.yml")
+	if err != nil {
+		panic(err)
+	}
 
 	// Initialize Gin router
 	r := gin.Default()
@@ -17,8 +23,8 @@ func main() {
 	r.Use(middleware.ErrorHandlingMiddleware())
 	r.Use(middleware.RateLimiterMiddleware())
 
-	// Initialize CacheRepository (Repository layer)
-	repo := repository.NewCacheRepository()
+	// Initialize MongoDB repository
+	repo := repository.NewMongoRepository(cfg.Mongo.URI, cfg.Mongo.Database, cfg.Mongo.Collection)
 
 	// Initialize UserController with the repository (Controller layer)
 	userController := controllers.NewUserController(repo)
