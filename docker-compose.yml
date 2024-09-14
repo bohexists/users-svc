@@ -5,8 +5,26 @@ services:
     container_name: users-mongo
     ports:
       - "27017:27017"
-    volumes:
-      - ./mongo-data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+
+  users-svc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: users-svc
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: "mongodb://root:example@mongo:27017"
+    volumes:
+      - ./views:/root/views
+      - ./config:/root/config
+
+volumes:
+  mongo-data:

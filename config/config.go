@@ -3,6 +3,7 @@ package config
 import (
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
+	"os"
 )
 
 type Config struct {
@@ -26,6 +27,7 @@ type CacheConfig struct {
 	DefaultTTL string `yaml:"default_ttl"`
 }
 
+// LoadConfig loads configuration from file and environment variables
 func LoadConfig(filename string) (*Config, error) {
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -36,6 +38,11 @@ func LoadConfig(filename string) (*Config, error) {
 	err = yaml.Unmarshal(data, &cfg)
 	if err != nil {
 		return nil, err
+	}
+
+	// Override MongoDB URI with environment variable if set
+	if uri := os.Getenv("MONGO_URI"); uri != "" {
+		cfg.Mongo.URI = uri
 	}
 
 	return &cfg, nil

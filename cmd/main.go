@@ -38,8 +38,7 @@ func main() {
 	r.GET("/user/delete/:id", userController.DeleteUser)  // Handle user deletion
 
 	// Start the server
-	err := r.Run(":8080")
-	if err != nil {
+	if err := r.Run(":8080"); err != nil {
 		return
 	}
 }
