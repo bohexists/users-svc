@@ -4,11 +4,11 @@ import "errors"
 
 // User represents the user model
 type User struct {
-	ID         string `json:"id"`
-	FirstName  string `json:"first_name"`
-	SecondName string `json:"second_name"`
-	Email      string `json:"email"`
-	Password   string `json:"password"`
+	ID         string `json:"id" bson:"_id"`
+	FirstName  string `json:"first_name" form:"first_name" bson:"first_name"`
+	SecondName string `json:"second_name" form:"second_name" bson:"second_name"`
+	Email      string `json:"email" form:"email" bson:"email"`
+	Password   string `json:"password" form:"password" bson:"password"`
 }
 
 // Validate validates the user model

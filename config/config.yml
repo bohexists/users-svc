@@ -9,7 +9,7 @@ cache:
   max_size: 100
   default_ttl: "1m"
 
-  mongo:
-    uri: "mongodb://root:example@localhost:27017/"
-    database: "usersdb"
-    collection: "users"
+mongo:
+  uri: "mongodb://root:example@mongo:27017"
+  database: "usersdb"
+  collection: "users"

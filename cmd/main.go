@@ -6,6 +6,7 @@ import (
 	"github.com/bohexists/users-svc/internal/middleware"
 	"github.com/bohexists/users-svc/repository"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func main() {
@@ -23,6 +24,9 @@ func main() {
 	r.Use(middleware.ErrorHandlingMiddleware())
 	r.Use(middleware.RateLimiterMiddleware())
 
+	// Log the database configuration
+	log.Printf("Connecting to MongoDB database: %s", cfg.Mongo.Database)
+	
 	// Initialize MongoDB repository
 	repo := repository.NewMongoRepository(cfg.Mongo.URI, cfg.Mongo.Database, cfg.Mongo.Collection)
 

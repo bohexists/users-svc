@@ -29,6 +29,11 @@ func NewMongoRepository(uri, dbName, collectionName string) *MongoRepository {
 		log.Fatalf("Failed to connect to MongoDB: %v", err)
 	}
 
+	// Ensure dbName is not empty
+	if dbName == "" {
+		log.Fatalf("Database name cannot be empty")
+	}
+
 	collection := client.Database(dbName).Collection(collectionName)
 	return &MongoRepository{collection: collection}
 }
