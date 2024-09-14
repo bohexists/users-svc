@@ -9,6 +9,7 @@ type Config struct {
 	Server      ServerConfig      `yaml:"server"`
 	RateLimiter RateLimiterConfig `yaml:"rate_limiter"`
 	Cache       CacheConfig       `yaml:"cache"`
+	Mongo       MongoConfig       `yaml:"mongo"`
 }
 
 type ServerConfig struct {
@@ -38,4 +39,10 @@ func LoadConfig(filename string) (*Config, error) {
 	}
 
 	return &cfg, nil
+}
+
+type MongoConfig struct {
+	URI        string `yaml:"uri"`
+	Database   string `yaml:"database"`
+	Collection string `yaml:"collection"`
 }

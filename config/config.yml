@@ -8,3 +8,8 @@ rate_limiter:
 cache:
   max_size: 100
   default_ttl: "1m"
+
+  mongo:
+    uri: "mongodb://root:example@localhost:27017/"
+    database: "usersdb"
+    collection: "users"
