@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -61,9 +62,13 @@ func (uc *UserController) CreateUser(c *gin.Context) {
 		return
 	}
 
+	// Log the user data to see what is being sent
+	log.Printf("Creating user: %+v", u)
+
 	// Create a new user through the repository
 	_, err := uc.repo.CreateUser(u)
 	if err != nil {
+		log.Printf("Error creating user: %v", err) // Log the error
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
 		return
 	}
