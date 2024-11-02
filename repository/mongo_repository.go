@@ -38,20 +38,20 @@ func NewMongoRepository(uri, dbName, collectionName string) *MongoRepository {
 	return &MongoRepository{collection: collection}
 }
 
-func (r *MongoRepository) CreateUser(user models.User) (string, error) {
+func (r MongoRepository) CreateUser(user models.User) (string, error) {
 	user.ID = primitive.NewObjectID().Hex()
 	_, err := r.collection.InsertOne(context.TODO(), user)
 	return user.ID, err
 }
 
-func (r *MongoRepository) GetUser(id string) (*models.User, error) {
+func (r MongoRepository) GetUser(id string) (*models.User, error) {
 	var user models.User
 	filter := bson.M{"id": id}
 	err := r.collection.FindOne(context.TODO(), filter).Decode(&user)
 	return &user, err
 }
 
-func (r *MongoRepository) GetAllUsers() ([]models.User, error) {
+func (r MongoRepository) GetAllUsers() ([]models.User, error) {
 	var users []models.User
 	cursor, err := r.collection.Find(context.TODO(), bson.D{})
 	if err != nil {
@@ -66,14 +66,14 @@ func (r *MongoRepository) GetAllUsers() ([]models.User, error) {
 	return users, nil
 }
 
-func (r *MongoRepository) UpdateUser(id string, user models.User) error {
+func (r MongoRepository) UpdateUser(id string, user models.User) error {
 	filter := bson.M{"id": id}
 	update := bson.M{"$set": user}
 	_, err := r.collection.UpdateOne(context.TODO(), filter, update)
 	return err
 }
 
-func (r *MongoRepository) DeleteUser(id string) error {
+func (r MongoRepository) DeleteUser(id string) error {
 	filter := bson.M{"id": id}
 	_, err := r.collection.DeleteOne(context.TODO(), filter)
 	return err

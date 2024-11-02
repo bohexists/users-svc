@@ -22,7 +22,7 @@ func ErrorHandlingMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
 
-		// Check if there are any errors that occurred in the handler
+		// Check if there are any errors that occurred in the handlers
 		if len(c.Errors) > 0 {
 			// Get the last error
 			err := c.Errors.Last()
