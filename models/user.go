@@ -2,7 +2,7 @@ package models
 
 import "errors"
 
-// User represents the user model
+// User represents the repositorys models
 type User struct {
 	ID         string `json:"id" bson:"_id"`
 	FirstName  string `json:"first_name" form:"first_name" bson:"first_name"`
@@ -11,7 +11,7 @@ type User struct {
 	Password   string `json:"password" form:"password" bson:"password"`
 }
 
-// Validate validates the user model
+// Validate validates the repositorys models
 func (u *User) Validate() error {
 	if u.FirstName == "" || u.Email == "" {
 		return errors.New("first name and email are required")
